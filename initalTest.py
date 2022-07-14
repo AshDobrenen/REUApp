@@ -16,9 +16,16 @@ savePath =
 fileName = "initalTest.csv"
 fullName = os.path.join(savePath, fileName)
 
-with open(fullName, "a", newline="") as c:
-  writer = csv.writer(f)
+with open(fullName, "a", newline="") as h:
+  writer = csv.writer(h)
   writer.writerow(listOfHeaders)
  
 #writing out the content of the database
+with open(fullName, "a", newline="") as c:
+  writer = csv.writer(c)
+  writer.writerow(tlist)
 
+#with open(fullName, "r", newline="") as r:
+#  reader = csv.reader(r)
+#  lines = len(list(reader))
+#  print("[",lines,"]", "form!")
