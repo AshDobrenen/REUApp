@@ -1,13 +1,15 @@
 from imports import *
+from initalTestURL import *
 #this is to test the opening of the website file, finding the data-attribute code, and exporting it to a csv. 
 #after I will add a new file to do this for all the test websites to one csv, and all the training websites to another
 ###########
 #opening and reading the website
-
+def getWebCode(urls)
 
 ###########
 #extracting and saving sata-attributes to database
-
+def getDataPoints(smth):
+  
 ###########
 #exporting to a csv
 def writeHeaders():
@@ -39,5 +41,5 @@ def writeCSV(itlist):
 def main():
   writeHeader()
   #loop through all websites
-  for i in rnage(0,2):
-    print(writeCSV(getDataPoints(initalTestURL[i])))
+  for i in range(0,2):
+    print(writeCSV(getDataPoints(iturl[i])))
