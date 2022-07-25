@@ -5,10 +5,10 @@ from initalTestURL import *
 ###########
 #opening and reading the website
 def getWebCode(urls)
-
+  tFile = open(urls, 'r')
 ###########
 #extracting and saving sata-attributes to database
-def getDataPoints(smth):
+#def getDataPoints(smth):
   
 ###########
 #exporting to a csv
