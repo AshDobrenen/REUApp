@@ -6,9 +6,15 @@ from initalTestURL import *
 #opening and reading the website
 def getWebCode(urls)
   tFile = open(urls, 'r')
+  
+  soup = BeautifulSoup(tFile,"html5lib")
+  
+  
 ###########
 #extracting and saving sata-attributes to database
-#def getDataPoints(smth):
+def getDataPoints(turls):
+  smth = getWebCode(turls)
+  
   
 ###########
 #exporting to a csv
