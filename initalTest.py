@@ -8,34 +8,63 @@ from initalTestURL import *
 ###########
 #open and then extracting data-attributes and saving all to database
 def getDataPoints(turls):
-  item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol,  lengthAlt, pVideoTag, code = ([] for n in range(11))
+  item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol, lengthAlt, pVideoTag, code = ([] for n in range(11))
   tFile = open(turls, 'r', encoding="latin-1")
   
-  soup = BeautifulSoup(tFile)
+  #ad in what values each feature can have, use 0 or 1 rather than true or false
+  
+  soup = BeautifulSoup(tFile, "html.parser")
   #print(soup)
   #get all of data attributes in the soup
-  item = soup.find_all('data-attribute')
-  #use that number to create a table that will be filled in and returnd to the main function
-  featuresTable = DataFrame()
+  #loop through it
+  item = soup.find_all(attrs = {"data-attribute": True})
+  print(item)
+  print(len(item))
+  #create a table that will be filled in and returnd to the main function
+  featuresTable = {}
   #fill in the features and code to the lists individually
+  for i in range(0,len(item)):
+      #presence of alt text and length
+      if(item[i].find_all("alt")==[]):
+          pAlt.append(False)
+      else:
+          pAlt.append(True)
+          lengthAlt.append(len(str(item[i].find("alt"))))
+      #presence of ad, advertisement, paid, sponsered, Facebook, Twitter, Instagram, TikTok
+      if(item[i].find_all("ad" or "advertisement" or "paid" or "sponsered" or "Facebook" or "Twitter" or "Instagram" or "TikTok")==[]):
+          pKeyword.append(False)
+      else:
+          pKeyword.append(True)
+ 
+      #redirect url idk
+      
+      #picture text based ones besides alt text idk, doesnt quite work, but somtheing like this
+      #image = item[i].find('img')
+      #picSource = image.attrs['src']
+     # print(picSource)
+      
+      
+      #video tag
+      if(item[i].find_all("video")==[]):
+          pVideoTag.append(False)
+      else:
+          pVideoTag.append(True)
   
-  #da == dec, code = 1 and vice versa
-  #if (
+      #da == dec, code = 1 and vice versa
+      if(item[i].find_all("deceptive")==[]):
+         code.append(0)
+      else:
+         code.append(1)
   
   featuresTable[0] = item
-  featuresTable[1] = pAlt
-  featuresTable[2] = pKeyword
-  featuresTable[3] = redirect
-  featuresTable[4] = pPicText
-  featuresTable[5] = picTextLength
-  featuresTable[6] = picKeywords
-  featuresTable[7] = pAdSymbol
-  featuresTable[8] = lengthAlt
-  featuresTable[9] = pVideoTag
-  featuresTable[10] = code
- 
+
+  print(pAlt)
+  print(pKeyword)
+  print(lengthAlt)
+  print(pVideoTag)
+  print(code)
   #transpose the table to get the rows in the right order
-  return  featuresTable.T
+  return  featuresTable
 ###########
 #exporting to a csv
 def writeHeaders():
@@ -58,12 +87,11 @@ def writeCSV(itlist):
   #writing out the content of the database
   with open(fullName, "a", newline="") as c:
     writer = csv.writer(c)
-    writer.writerows(itlist)
+    writer.writerow(itlist)
 
-    
-###########
-#main function
+################################
 writeHeaders()
 #loop through all websites
 for i in range(0,1):
     print(writeCSV(getDataPoints(iturl[i])))
+#close file
