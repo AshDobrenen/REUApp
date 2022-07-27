@@ -6,11 +6,11 @@ from initalTestURL import *
 ###########
 #open and then extracting and saving sata-attributes to database
 def getDataPoints(turls):
-  item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol,  lengthAlt, pVideoTag, code = ([] for n in range(11))
-  tFile = open(urls, 'r')
+  item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol,  lengthAlt, pVideoTag, code = ([1] for n in range(11))
+  tFile = open(turls, 'r')
   
   soup = BeautifulSoup(tFile,"html5lib")
-  print(soup.prettify())
+  #print(soup)
   
   return  item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol,  lengthAlt, pVideoTag, code
 ###########
@@ -22,7 +22,7 @@ def writeHeaders():
 #pKeyword includes ad, paid/sponsered, socials
 
   listOfHeaders = ["item", "pAlt", "pKeyword", "redirect", "pPicText", "picTextLength", "picKeywords", "pAdSymbol",  "lengthAlt", "pVideoTag", "code"]
-  savePath = "C:\Users\bluec\OneDrive\Desktop\ODU"
+  savePath = "C:\\Users\\bluec\\OneDrive\\Desktop\\ODU\\"
   fileName = "initalTest.csv"
   fullName = os.path.join(savePath, fileName)
 
@@ -32,7 +32,7 @@ def writeHeaders():
  
 
 def writeCSV(itlist):
-  savePath = "C:\Users\bluec\OneDrive\Desktop\ODU"
+  savePath = "C:\\Users\\bluec\\OneDrive\\Desktop\\ODU\\"
   fileName = "initalTest.csv"
   fullName = os.path.join(savePath, fileName)
   #writing out the content of the database
@@ -46,7 +46,7 @@ def writeCSV(itlist):
   #  print("[",lines,"]", "form!")
 
 def main():
-  writeHeader()
+  writeHeaders()
   #loop through all websites
   for i in range(0,2):
     print(writeCSV(getDataPoints(iturl[i])))
