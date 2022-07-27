@@ -4,22 +4,35 @@ from initalTestURL import *
 #after I will add a new file to do this for all the test websites to one csv, and all the training websites to another
 
 ###########
-#open and then extracting and saving sata-attributes to database
+#open and then extracting data-attributes and saving all to database
 def getDataPoints(turls):
   #item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol,  lengthAlt, pVideoTag, code
   tFile = open(turls, 'r')
   
   soup = BeautifulSoup(tFile,"html5lib")
-  
+  #get all of data attributes in the soup
   item = soup.find_all('data-attribute')
+  #use that number to create a table that will be filled in and returnd to the main function
+  featuresTable = DataFrame()
+  #fill in the features and code to the lists individually
   
+  #da == dec, code = 1 and vice versa
+  #if (
   
-  #
-  if (
-  
-  
-  
-  return  item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol,  lengthAlt, pVideoTag, code
+  featuresTable[0] = item
+  featuresTable[1] = pAlt
+  featuresTable[2] = pKeyword
+  featuresTable[3] = redirect
+  featuresTable[4] = pPicText
+  featuresTable[5] = picTextLength
+  featuresTable[6] = picKeywords
+  featuresTable[7] = pAdSymbol
+  featuresTable[8] = lengthAlt
+  featuresTable[9] = pVideoTag
+  featuresTable[10] = code
+ 
+  #transpose the table to get the rows in the right order
+  return  featuresTable.T
 ###########
 #exporting to a csv
 def writeHeaders():
