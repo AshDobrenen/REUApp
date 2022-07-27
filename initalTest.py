@@ -6,7 +6,7 @@ from initalTestURL import *
 ###########
 #open and then extracting data-attributes and saving all to database
 def getDataPoints(turls):
-  #item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol,  lengthAlt, pVideoTag, code
+  item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol,  lengthAlt, pVideoTag, code = ([] for n in range(11))
   tFile = open(turls, 'r')
   
   soup = BeautifulSoup(tFile,"html5lib")
