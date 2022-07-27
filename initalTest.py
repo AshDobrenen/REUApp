@@ -19,8 +19,11 @@ def getDataPoints(turls):
 ###########
 #exporting to a csv
 def writeHeaders():
-#headers = item, features, code
-  listOfHeaders = []
+#headers = item, features, class(1 or 0 for deceptive or not)
+#pAlt includes any alt text, play now, close ad, etc
+#pKeyword includes ad, paid/sponsered, socials
+
+  listOfHeaders = ["item", "pAlt", "pKeyword", "redirect", "pPicText", "picTextLength", "picKeywords", "pAdSymbol",  "lengthAlt", "pVideoTag", "class"]
   savePath = "C:\Users\bluec\OneDrive\Desktop\ODU"
   fileName = "initalTest.csv"
   fullName = os.path.join(savePath, fileName)
