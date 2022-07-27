@@ -24,33 +24,39 @@ def getDataPoints(turls):
   featuresTable = {}
   #fill in the features and code to the lists individually
   for i in range(0,len(item)):
-      #presence of alt text and length
+      #presence of alt text and length if there is some
       if(item[i].find_all("alt")==[]):
-          pAlt.append(False)
+          pAlt.append(0)
       else:
-          pAlt.append(True)
+          pAlt.append(1)
           lengthAlt.append(len(str(item[i].find("alt"))))
-      #presence of ad, advertisement, paid, sponsered, Facebook, Twitter, Instagram, TikTok
+      #presence of ad, advertisement, paid, sponsered, Facebook, Twitter, Instagram, TikTok keywords, 0 if none 1 if there is the keyword
       if(item[i].find_all("ad" or "advertisement" or "paid" or "sponsered" or "Facebook" or "Twitter" or "Instagram" or "TikTok")==[]):
-          pKeyword.append(False)
+          pKeyword.append(0)
       else:
-          pKeyword.append(True)
+          pKeyword.append(1)
  
-      #redirect url idk
+      #if there is a url in the item, does it redirect (0 or 1) as long as its not an image scr
       
-      #picture text based ones besides alt text idk, doesnt quite work, but somtheing like this
+      #picture text based ones besides alt text
+      #presence of picture text(0 or 1) and length if there is text, will be same as alt text code
+      #presence of keywords in picutre (0 or 1) keywords in pictures ad, advertisement, buy now, sign up here, paid, sponsered
+      
       #image = item[i].find('img')
       #picSource = image.attrs['src']
      # print(picSource)
+    
+      #presence of ad symbol (0 or 1) html of that symbol below
+      #<img width="19px" height="15px" style="background:transparent !important; margin:0; padding:0; border:none; position:absolute; right:0px; top:0px;" src="https://choices.trustarc.com/get?name=admarker-icon-tr.png">
       
       
-      #video tag
+      #presence of video lable/tag(0 or 1) 
       if(item[i].find_all("video")==[]):
-          pVideoTag.append(False)
+          pVideoTag.append(0)
       else:
-          pVideoTag.append(True)
+          pVideoTag.append(1)
   
-      #da == dec, code = 1 and vice versa
+      #is the data-attriburte in this item=="decpetive", code = 1 and vice versa
       if(item[i].find_all("deceptive")==[]):
          code.append(0)
       else:
