@@ -6,11 +6,18 @@ from initalTestURL import *
 ###########
 #open and then extracting and saving sata-attributes to database
 def getDataPoints(turls):
-  item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol,  lengthAlt, pVideoTag, code = ([1] for n in range(11))
+  #item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol,  lengthAlt, pVideoTag, code
   tFile = open(turls, 'r')
   
   soup = BeautifulSoup(tFile,"html5lib")
-  #print(soup)
+  
+  item = soup.find_all('data-attribute')
+  
+  
+  #
+  if (
+  
+  
   
   return  item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol,  lengthAlt, pVideoTag, code
 ###########
