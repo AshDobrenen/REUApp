@@ -45,12 +45,7 @@ def writeCSV(itlist):
   #writing out the content of the database
   with open(fullName, "a", newline="") as c:
     writer = csv.writer(c)
-    writer.writerow(itlist)
-
-  #with open(fullName, "r", newline="") as r:
-  #  reader = csv.reader(r)
-  #  lines = len(list(reader))
-  #  print("[",lines,"]", "form!")
+    writer.writerows(itlist)
 
 def main():
   writeHeaders()
