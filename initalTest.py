@@ -2,28 +2,26 @@ from imports import *
 from initalTestURL import *
 #this is to test the opening of the website file, finding the data-attribute code, and exporting it to a csv. 
 #after I will add a new file to do this for all the test websites to one csv, and all the training websites to another
+
 ###########
-#opening and reading the website
-def getWebCode(urls)
+#open and then extracting and saving sata-attributes to database
+def getDataPoints(turls):
+  item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol,  lengthAlt, pVideoTag, code = ([] for n in range(11))
   tFile = open(urls, 'r')
   
   soup = BeautifulSoup(tFile,"html5lib")
+  print(soup.prettify())
   
-  
-###########
-#extracting and saving sata-attributes to database
-def getDataPoints(turls):
-  smth = getWebCode(turls)
-  
-  
+  return  item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol,  lengthAlt, pVideoTag, code
 ###########
 #exporting to a csv
 def writeHeaders():
-#headers = item, features, class(1 or 0 for deceptive or not)
+#headers = item, features, code(1 or 0 for deceptive or not)
+#item is datapoint
 #pAlt includes any alt text, play now, close ad, etc
 #pKeyword includes ad, paid/sponsered, socials
 
-  listOfHeaders = ["item", "pAlt", "pKeyword", "redirect", "pPicText", "picTextLength", "picKeywords", "pAdSymbol",  "lengthAlt", "pVideoTag", "class"]
+  listOfHeaders = ["item", "pAlt", "pKeyword", "redirect", "pPicText", "picTextLength", "picKeywords", "pAdSymbol",  "lengthAlt", "pVideoTag", "code"]
   savePath = "C:\Users\bluec\OneDrive\Desktop\ODU"
   fileName = "initalTest.csv"
   fullName = os.path.join(savePath, fileName)
@@ -40,7 +38,7 @@ def writeCSV(itlist):
   #writing out the content of the database
   with open(fullName, "a", newline="") as c:
     writer = csv.writer(c)
-    writer.writerow(tlist)
+    writer.writerow(itlist)
 
   #with open(fullName, "r", newline="") as r:
   #  reader = csv.reader(r)
