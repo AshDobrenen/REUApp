@@ -1,4 +1,4 @@
-path = "C:/Users/bluec/OneDrive/Desktop/ODU/Webpages
+path = "C:/Users/bluec/OneDrive/Desktop/ODU/Webpages"
 url = [path+"/The New York Times - Breaking News, US News, World News and Videos.html",
        path+"/Monkeypox Can Be Airborne, Too - The New York Times.html",
        path+"/Fox News - Breaking News Updates _ Latest News Headlines _ Photos & News Videos.html",
