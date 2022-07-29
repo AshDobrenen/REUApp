@@ -36,8 +36,9 @@ def getDataPoints(turls):
       #presence of ad, advertisement, paid, sponsered, Facebook, Twitter, Instagram, TikTok
       #convert item to string, then can search in string, look up how to do this
       #finding ad as a partial of a word
+      #reg expression of not any other letter before or after ad, so that it can have characters or spaces, but not letters
       #print(itemString[i].find("ad" or "advertisement" or "paid" or "sponsered" or "Facebook" or "Twitter" or "Instagram" or "TikTok"))
-      if(itemString[i].find("ad" or "advertisement" or "paid" or "sponsered" or "Facebook" or "Twitter" or "Instagram" or "TikTok")>=0):
+      if(re.search("[^a-zA-Z]ad[^a-zA-Z]|advertisement|paid|sponsered|Facebook|Twitter|Instagram|TikTok", itemString[i])!=None):
           pKeyword.append(1)
       else:
           pKeyword.append(0)
@@ -70,8 +71,6 @@ def getDataPoints(turls):
   #then dictionairy of featuresTable
   featuresTable = {"pAlt": pAlt, "pKeyword": pKeyword, "lengthAlt": lengthAlt, "pVideoTag": pVideoTag, "code": code}
   #1 is true/deceptive 0 is false/nondeceptive
-
-  print(pKeyword)
   
   return  featuresTable
 
