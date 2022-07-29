@@ -5,99 +5,79 @@ from initalTestURL import *
 
 ###########
 #open and then extracting data-attributes and saving all to database
-###########
-#open and then extracting data-attributes and saving all to database
 def getDataPoints(turls):
   item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol, lengthAlt, pVideoTag, code = ([] for n in range(11))
   tFile = open(turls, 'r', encoding="latin-1")
-  
+  itemString = []
   #ad in what values each feature can have, use 0 or 1 rather than true or false
   
   soup = BeautifulSoup(tFile, "html.parser")
-  #print(soup)
+  #print(soup.prettify())
   #get all of data attributes in the soup
-  #loop through it
-  item = soup.find_all(attrs = {"data-attribute": True})
+  #loop through it? only getting first instance of attr
+  item = soup.select("[data-attribute]")#data-attribute="deceptive" or nondeceptive
+  
   print(item)
   print(len(item))
+  
   #create a table that will be filled in and returnd to the main function
   featuresTable = {}
   #fill in the features and code to the lists individually
   for i in range(0,len(item)):
-      #presence of alt text and length if there is some
-      if(item[i].find_all("alt")==[]):
-          pAlt.append(0)
-      else:
+      itemString.append(str(item[i]))
+      #presence of alt text and length
+      if(item[i].has_attr("alt")):
           pAlt.append(1)
-          lengthAlt.append(len(str(item[i].find("alt"))))
-      #presence of ad, advertisement, paid, sponsered, Facebook, Twitter, Instagram, TikTok keywords, 0 if none 1 if there is the keyword
-      if(item[i].find_all("ad" or "advertisement" or "paid" or "sponsered" or "Facebook" or "Twitter" or "Instagram" or "TikTok")==[]):
-          pKeyword.append(0)
+          #using attribute, find attribute value, then get length
+          lengthAlt.append(len(str(item[i].get("alt"))))
       else:
+          pAlt.append(0)
+          
+      #presence of ad, advertisement, paid, sponsered, Facebook, Twitter, Instagram, TikTok
+      #convert item to string, then can search in string, look up how to do this
+      #finding ad as a partial of a word
+      #print(itemString[i].find("ad" or "advertisement" or "paid" or "sponsered" or "Facebook" or "Twitter" or "Instagram" or "TikTok"))
+      if(itemString[i].find("ad" or "advertisement" or "paid" or "sponsered" or "Facebook" or "Twitter" or "Instagram" or "TikTok")>=0):
           pKeyword.append(1)
+      else:
+          pKeyword.append(0)
  
-      #if there is a url in the item, does it redirect (0 or 1) as long as its not an image scr
+    ##############################
+ #will need other libraris, look later
+      #redirect url idk
       
-      #picture text based ones besides alt text
-      #presence of picture text(0 or 1) and length if there is text, will be same as alt text code
-      #presence of keywords in picutre (0 or 1) keywords in pictures ad, advertisement, buy now, sign up here, paid, sponsered
-      
+      #picture text based ones besides alt text idk, doesnt quite work, but somtheing like this
       #image = item[i].find('img')
       #picSource = image.attrs['src']
      # print(picSource)
-    
-      #presence of ad symbol (0 or 1) html of that symbol below
-      #<img width="19px" height="15px" style="background:transparent !important; margin:0; padding:0; border:none; position:absolute; right:0px; top:0px;" src="https://choices.trustarc.com/get?name=admarker-icon-tr.png">
+      #####################################
       
-      
-      #presence of video lable/tag(0 or 1) 
-      if(item[i].find_all("video")==[]):
-          pVideoTag.append(0)
-      else:
+      #video tag, will be done the same way as keywords
+      if(itemString[i].find("video")>=0):
           pVideoTag.append(1)
-  
-      #is the data-attriburte in this item=="decpetive", code = 1 and vice versa
-      if(item[i].find_all("deceptive")==[]):
-         code.append(0)
       else:
-         code.append(1)
+          pVideoTag.append(0)
   
-  featuresTable[0] = item
+      #da == dec, code = 1 and vice versa, same as keywords, convert to string, search string for full data attr
+      if(itemString[i].find('data-attribute="deceptive"')>=0):
+         code.append(1)
+      else:
+         code.append(0)
+  
+  
+  #make to a dataframe from dictionaires, then push the dataframe to csv
+  #seperate lists of each feature, these will become columns
+  #then dictionairy of featuresTable
+  featuresTable = {"pAlt": pAlt, "pKeyword": pKeyword, "lengthAlt": lengthAlt, "pVideoTag": pVideoTag, "code": code}
+  #1 is true/deceptive 0 is false/nondeceptive
 
-  print(pAlt)
   print(pKeyword)
-  print(lengthAlt)
-  print(pVideoTag)
-  print(code)
-  #transpose the table to get the rows in the right order
+  
   return  featuresTable
-###########
-#exporting to a csv
-def writeHeaders():
-#headers = item, features, code(1 or 0 for deceptive or not)
-#item is datapoint
-#pAlt includes any alt text, play now, close ad, etc
-#pKeyword includes ad, paid/sponsered, socials
 
-  listOfHeaders = ["item", "pAlt", "pKeyword", "redirect", "pPicText", "picTextLength", "picKeywords", "pAdSymbol",  "lengthAlt", "pVideoTag", "code"]
+#############main
 
-  fullName = "C:\\Users\\bluec\\OneDrive\\Desktop\\ODU\\initalTest.csv"
-
-  with open(fullName, "a", newline="") as h:
-    writer = csv.writer(h)
-    writer.writerow(listOfHeaders)
- 
-
-def writeCSV(itlist):
-  fullName = "C:\\Users\\bluec\\OneDrive\\Desktop\\ODU\\initalTest.csv"
-  #writing out the content of the database
-  with open(fullName, "a", newline="") as c:
-    writer = csv.writer(c)
-    writer.writerow(itlist)
-
-################################
-writeHeaders()
-#loop through all websites
-for i in range(0,1):
-    print(writeCSV(getDataPoints(iturl[i])))
-#close file
+#8 deceptive, 1 nondeceptive
+testTable = getDataPoints(iturl[0])
+df = pd.DataFrame(testTable)
+df.to_csv('initalTest.csv')
