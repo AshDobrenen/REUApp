@@ -4,6 +4,8 @@ from initalTestURL import *
 #after I will add a new file to do this for all the test websites to one csv, and all the training websites to another
 ###########
 #open and then extracting data-attributes and saving all to database
+###########
+#open and then extracting data-attributes and saving all to database
 def getDataPoints(turls):
   item, pAlt, pKeyword, redirect, pPicText, picTextLength, picKeywords, pAdSymbol, lengthAlt, pVideoTag, code = ([] for n in range(11))
   tFile = open(turls, 'r', encoding="latin-1")
@@ -26,11 +28,11 @@ def getDataPoints(turls):
   #print(soup.prettify())
   #get all of data attributes in the soup
   #loop through it? only getting first instance of attr
-  item = soup.get('data-attribute')#data-attribute="deceptive" or nondeceptive
+  #item = soup.get('data-attribute')#data-attribute="deceptive" or nondeceptive
   #item = soup.find_all('a')
-  #item = soup.select('[data-attribute]')
-  print(item)
-  print(len(item))
+  item = soup.select('[data-attribute]')
+  #print(item)
+  #print(len(item))
   
   #create a table that will be filled in and returnd to the main function
   featuresTable = {}
@@ -44,13 +46,13 @@ def getDataPoints(turls):
           lengthAlt.append(len(str(item[i].get("alt"))))
       else:
           pAlt.append(0)
-          
+          lengthAlt.append(0)
       #presence of ad, advertisement, paid, sponsered, Facebook, Twitter, Instagram, TikTok
       #convert item to string, then can search in string, look up how to do this
       #finding ad as a partial of a word
       #reg expression of not any other letter before or after ad, so that it can have characters or spaces, but not letters
       #print(itemString[i].find("ad" or "advertisement" or "paid" or "sponsered" or "Facebook" or "Twitter" or "Instagram" or "TikTok"))
-      if(re.search("[^a-zA-Z]ad[^a-zA-Z]|advertisement|paid|sponsered|Facebook|Twitter|Instagram|TikTok", itemString[i])!=None):
+      if(re.search("[^a-zA-Z]ad[^a-zA-Z]|advertisement|paid|sponsered|Facebook|Twitter|Instagram|TikTok|search", itemString[i])!=None):
           pKeyword.append(1)
       else:
           pKeyword.append(0)
@@ -81,14 +83,28 @@ def getDataPoints(turls):
   #make to a dataframe from dictionaires, then push the dataframe to csv
   #seperate lists of each feature, these will become columns
   #then dictionairy of featuresTable
-  featuresTable = {"pAlt": pAlt, "pKeyword": pKeyword, "lengthAlt": lengthAlt, "pVideoTag": pVideoTag, "code": code}
+  #featuresTable = {"pAlt": pAlt, "pKeyword": pKeyword, "lengthAlt": lengthAlt, "pVideoTag": pVideoTag, "code": code}
   #1 is true/deceptive 0 is false/nondeceptive
+  #print(featuresTable)
   
-  return  featuresTable
+  #featuresDF = pd.DataFrame(featuresTable)
+  
+  return  pAlt, pKeyword, lengthAlt, pVideoTag, code
 
 #############main
+#using the testingurls.py
+pAlt, pKeyword, lengthAlt, pVideoTag, code = ([] for i in range(5))
 
-#8 deceptive, 1 nondeceptive
-testTable = getDataPoints(iturl[0])
-df = pd.DataFrame(testTable)
+for i in range(0,29):
+    testTable = getDataPoints(iturl[i])
+    #print(testTable)
+    pAlt.extend(testTable[0])
+    pKeyword.extend(testTable[1])
+    lengthAlt.extend(testTable[2])
+    pVideoTag.extend(testTable[3])
+    code.extend(testTable[4])
+
+dict = {"pAlt": pAlt, "pKeyword": pKeyword, "lengthAlt": lengthAlt, "pVideoTag": pVideoTag, "code": code}
+df = DataFrame(dict)
+#print(df)
 df.to_csv('initalTest.csv')
