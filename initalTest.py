@@ -2,7 +2,6 @@ from imports import *
 from initalTestURL import *
 #this is to test the opening of the website file, finding the data-attribute code, and exporting it to a csv. 
 #after I will add a new file to do this for all the test websites to one csv, and all the training websites to another
-
 ###########
 #open and then extracting data-attributes and saving all to database
 def getDataPoints(turls):
@@ -10,13 +9,26 @@ def getDataPoints(turls):
   tFile = open(turls, 'r', encoding="latin-1")
   itemString = []
   #ad in what values each feature can have, use 0 or 1 rather than true or false
+  readFile = tFile.read()
+  #check beautiful soup version = 4.11.1
   
-  soup = BeautifulSoup(tFile, "html.parser")
+  soup = BeautifulSoup(readFile, "html.parser")
+  #print(soup.html)
+  with open('readme.txt', 'w', encoding = 'utf-8') as f:
+    
+     f.write(str(soup.prettify()))
+   #read up on traversal
+  #for child in soup.recursiveChildGenerator():
+
+       # if child.hasattr("data-attribute"):
+            
+            #print(child.name)
   #print(soup.prettify())
   #get all of data attributes in the soup
   #loop through it? only getting first instance of attr
-  item = soup.select("[data-attribute]")#data-attribute="deceptive" or nondeceptive
-  
+  item = soup.get('data-attribute')#data-attribute="deceptive" or nondeceptive
+  #item = soup.find_all('a')
+  #item = soup.select('[data-attribute]')
   print(item)
   print(len(item))
   
