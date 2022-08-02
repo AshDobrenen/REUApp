@@ -25,7 +25,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 df = pd.read_csv('dataset.csv')
 data = df.values
 x, y = data[:, :-1], data[:,-1]
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.5, random_state=1)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=1)
 
 
 #different models to see which is the best overall for what i want to do with it
@@ -69,3 +69,5 @@ for i in range(len(confusionMatrixs)):
 #accuracy and AUC
 accAucDf = pd.DataFrame({'Model':modelList, 'Accuracy':accuracyAll, 'AUC':AUCAll})    
 print(accAucDf)
+
+
