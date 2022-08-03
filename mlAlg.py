@@ -24,8 +24,8 @@ from sklearn.metrics import classification_report, confusion_matrix
 #open and split dataset
 df = pd.read_csv('dataset.csv')
 data = df.values
-x, y = data[:, :-1], data[:,-1]
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=1)
+X, y = data[:, :-1], data[:,-1]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 
 
 #different models to see which is the best overall for what i want to do with it
@@ -44,8 +44,8 @@ AUCAll = []
 confusionMatrixs = []
 
 for model in modelTypes:
-    model.fit(x_train, y_train)#need x and y inputs and outputs? features columns and code column?
-    prediction = model.predict(x_test)
+    model.fit(X_train, y_train)#need x and y inputs and outputs? features columns and code column?
+    prediction = model.predict(X_test)
     accuracyAll.append(metrics.accuracy_score(y_test, prediction))
     x, y, _thresholds = metrics.roc_curve(y_test, prediction)
     AUCAll.append(round(metrics.auc(x, y),2))
